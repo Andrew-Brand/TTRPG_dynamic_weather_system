@@ -27,5 +27,4 @@ def change_state(temperature, intensity):
 
     return temperature, intensity
 
-temperature = 1
-intensity = 1
+change_state(1,1)

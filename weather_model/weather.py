@@ -5,12 +5,13 @@ import os
 def open_csv(name:str):
     script_dir = os.path.dirname(__file__)
     full_path = os.path.join(script_dir, 'tables', name)
-    return pd.read_csv(full_path)
+    return pd.read_csv(full_path, header=None)
 
 def import_tables():
     pressure_humidity = open_csv("pressure-humidity.csv")
     wind = open_csv('wind_speeds.csv')
     states = open_csv('states.csv')
+    print(states)
     return pressure_humidity, wind, states
 
 def run(days:int, season:str, climate:str, humidity:str):
@@ -22,7 +23,7 @@ def run(days:int, season:str, climate:str, humidity:str):
     intensity = rnd.randrange(0,rows)
     temp = rnd.randrange(0,cols)
 
-    weather = states.iloc[intensity,temp]
+    weather = states.iloc[temp, intensity]
 
     return states, weather, temp, intensity
 
