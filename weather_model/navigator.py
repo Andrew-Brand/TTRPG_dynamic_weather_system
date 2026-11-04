@@ -24,7 +24,7 @@ def change_state(temperature:int, intensity:int, maxTemp:int, maxIntensity:int):
 
     temperature = current_state[0]
     temperature = min(temperature, maxTemp)
-    tempature = max(temperature, 0)
+    temperature = max(temperature, 0)
     intensity = current_state[1]
     intensity = min(intensity, maxIntensity)
     intensity = max(intensity, 0)
