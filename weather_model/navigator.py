@@ -1,7 +1,7 @@
 from random import randrange
 import numpy as np
 
-def change_state(temperature, intensity):
+def change_state(temperature:int, intensity:int, maxTemp:int, maxIntensity:int):
     """ Shifts the weather state according to a probabilistic tendency towards a central """
 
     current_state = np.array([temperature, intensity])
@@ -31,6 +31,10 @@ def change_state(temperature, intensity):
     current_state = current_state + step
 
     temperature = current_state[0]
+    temperature = min(temperature, maxTemp)
+    temperature = max(temperature, 0)
     intensity = current_state[1]
+    intensity = min(intensity, maxIntensity)
+    intensity = max(intensity, 0)
 
     return temperature, intensity
