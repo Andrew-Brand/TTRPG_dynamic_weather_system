@@ -3,17 +3,19 @@ import random as rnd
 
 def import_tables():
     """import csv input tables from 'tables' directory"""
-    p_h = pd.read_csv(r'tables\pressure-humidity.csv')
-    wind = pd.read_csv(r'tables\wind_speeds.csv')
-    states = pd.read_csv(r'tables\states.csv', header = None)
+    p_h = pd.read_csv(r'TTRPG_dynamic_weather_system/tables/pressure-humidity.csv')
+    wind = pd.read_csv(r'TTRPG_dynamic_weather_system/tables/wind_speeds.csv')
+    states = pd.read_csv(r'TTRPG_dynamic_weather_system/tables/states.csv', header = None)
     return p_h, wind, states
-
 
 def run(d:int, s:str, t:str, h:str):
     p_h, wind, states = import_tables()
 
-    temp = rnd.randrange(1,11)
-    intensity = rnd.randrange(1,8)
+    cols = states.shape[1]
+    rows = states.shape[0]
+
+    intensity = rnd.randrange(0,rows)
+    temp = rnd.randrange(0,cols)
 
     weather = states.iloc[intensity,temp]
 
