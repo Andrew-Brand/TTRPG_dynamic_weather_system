@@ -11,22 +11,21 @@ def get_inputs():
 def main():
     days, season, climate, humidity = get_inputs()
     states, weather, temp, intensity = run(days, season, climate, humidity)
-    maxTemp = states.shape[0]
-    maxIntensity = states.shape[1]
-    print(f"{maxTemp},{maxIntensity}")
-    print(f"{temp}, {intensity} - {weather}")
+    maxTemp = states.shape[1] - 1
+    maxIntensity = states.shape[0] - 1
+    print(f"{intensity}, {temp} - {weather}")
     newTemp, newIntensity = nav.change_state(temp, intensity, maxTemp, maxIntensity)
-    print(f"{newTemp}, {newIntensity} - {states.iloc[newTemp, newIntensity]}")
+    print(f"{newIntensity}, {newTemp} - {states.iloc[newIntensity, newTemp]}")
     newTemp, newIntensity = nav.change_state(newTemp, newIntensity, maxTemp, maxIntensity)
-    print(f"{newTemp}, {newIntensity} - {states.iloc[newTemp, newIntensity]}")
+    print(f"{newIntensity}, {newTemp} - {states.iloc[newIntensity, newTemp]}")
     newTemp, newIntensity = nav.change_state(newTemp, newIntensity, maxTemp, maxIntensity)
-    print(f"{newTemp}, {newIntensity} - {states.iloc[newTemp, newIntensity]}")
+    print(f"{newIntensity}, {newTemp} - {states.iloc[newIntensity, newTemp]}")
     newTemp, newIntensity = nav.change_state(newTemp, newIntensity, maxTemp, maxIntensity)
-    print(f"{newTemp}, {newIntensity} - {states.iloc[newTemp, newIntensity]}")
+    print(f"{newIntensity}, {newTemp} - {states.iloc[newIntensity, newTemp]}")
     newTemp, newIntensity = nav.change_state(newTemp, newIntensity, maxTemp, maxIntensity)
-    print(f"{newTemp}, {newIntensity} - {states.iloc[newTemp, newIntensity]}")
+    print(f"{newIntensity}, {newTemp} - {states.iloc[newIntensity, newTemp]}")
     newTemp, newIntensity = nav.change_state(newTemp, newIntensity, maxTemp, maxIntensity)
-    print(f"{newTemp}, {newIntensity} - {states.iloc[newTemp, newIntensity]}")
+    print(f"{newIntensity}, {newTemp} - {states.iloc[newIntensity, newTemp]}")
     return
 
 main()
