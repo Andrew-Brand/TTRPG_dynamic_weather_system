@@ -1,0 +1,9 @@
+,11,10,9,8,7,6,5,4,3,2,1
+8,Tropical storm/monsoon,Lightning storm,Thunderstorm,Thunderstorm,Rainstorm,Torrential rain,Cold heavy rain,Hail/sleet,Heavy snow,Blizzard,White out
+7,"Extreme, Severe","Scorching, Severe","Hot, Severe","Warm, Severe",Heavy rain,Heavy rain,"Cool, Severe","Chilly, Severe","Cold, Severe",Heavy snow,Blizzard
+6,"Extreme, Harsh","Scorching, Harsh","Hot, Harsh","Warm, Harsh",Moderate rain,Moderate rain,"Cool, Harsh","Chilly, Harsh","Cold, Harsh",Moderate snow,Heavy snow
+5,"Extreme, Intense","Scorching, Intense","Hot, Intense","Warm, Intense",Moderate rain,Grey drizzle,"Cool, Intense","Chilly, Intense","Cold, Intense","Freezing, Intense",Moderate snow
+4,"Extreme, Moderate","Scorching, Moderate","Hot, Moderate","Warm, Moderate",Light rain,Darkened skies,"Cool, Moderate","Chilly, Moderate","Cold, Moderate","Freezing, Moderate",Moderate snow
+3,"Extreme, Gentle","Scorching, Gentle","Hot, Gentle","Warm, Gentle",Light rain,Heavy cloud cover,"Cool, Gentle","Chilly, Gentle","Cold, Gentle","Freezing, Gentle",Light snow
+2,"Extreme, Calm","Scorching, Calm","Hot, Calm","Warm, Calm",Moderate cloud cover,Light cloud cover,"Cool, Calm","Chilly, Calm","Cold, Calm","Freezing, Calm",Cloud cover
+1,Clear and unbearable,Clear and uncomfortably hot,Clear and hot,Clear and warm,Clear and pleasant,Clear and mild,Clear and cool,Clear and brisk,Clear and cold,Clear and uncomfortably cold,Clear and unbearably cold

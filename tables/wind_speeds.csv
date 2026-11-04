@@ -1,0 +1,14 @@
+Index,Wind speed,Speed low (km/h),Speed high (km/h)
+0,Calm,0,1
+1,Light air,1,5
+2,Light breeze,6,11
+3,Gentle breeze,12,19
+4,Moderate breeze,20,28
+5,Fresh breeze,29,38
+6,Strong breeze,39,49
+7,Near gale,50,61
+8,Gale,62,74
+9,Strong gale,75,88
+10,Storm,89,102
+11,Violent Storm,103,117
+12,Hurrican force,118,200

@@ -1,0 +1,8 @@
+Pressure,Very low,Low,Medium-low,Medium,Medium-high,High,Very high
+Very low,0,1,2,3,4,5,6
+Low,1,2,3,4,5,6,7
+Medium-low,2,3,4,5,6,7,8
+Medium,3,4,5,6,7,8,9
+Medium-high,4,5,6,7,8,9,10
+High,5,6,7,8,9,10,11
+Very high,6,7,8,9,10,11,12
