@@ -3,12 +3,12 @@ import random as rnd
 import os
 
 def open_csv(name:str):
-    script_dir = os.path.dirname(__file__)
-    full_path = os.path.join(script_dir, 'tables', name)
+    script_dir = os.getcwd()
+    full_path = os.path.join(script_dir, r'TTRPG_dynamic_weather_system\tables', name)
     return pd.read_csv(full_path, header=None)
 
 def import_tables():
-    pressure_humidity = open_csv("pressure-humidity.csv")
+    pressure_humidity = open_csv('pressure-humidity.csv')
     wind = open_csv('wind_speeds.csv')
     states = open_csv('states.csv')
     print(states)
