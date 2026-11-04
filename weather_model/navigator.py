@@ -8,25 +8,25 @@ def change_state(temperature:int, intensity:int, maxTemp:int, maxIntensity:int):
 
     move = randrange(1,100)
     if 1 <= move <= 10:
-        step = [0,0]
+        step = [0,0] # Stay in place
     elif 11 <= move <= 18:
-        step = [0,1]
+        step = [0,1] # Move up
     elif 19 <= move <= 24:
-        step = [1,1]
+        step = [1,1] # Move right and up
     elif 25 <= move <= 34:
-        step = [1,0]
+        step = [1,0] # Move right
     elif 35 <= move <= 49:
-        step = [1,-1]
+        step = [1,-1] # Move right and down
     elif 50 <= move <= 69: #nice
-        step = [0,-1]
+        step = [0,-1] # Move down
     elif 69 <= move <=84:
-        step = [-1,-1]
+        step = [-1,-1] # Move left and down
     elif 85 <= move <= 94:
-        step = [-1,0]
+        step = [-1,0] # Move left
     elif 95 <= move <= 100:
-        step = [-1,1]
+        step = [-1,1] # Move left and up
     else:
-        step = [0,0]
+        step = [0,0] # Stay in place
 
     current_state = current_state + step
 
