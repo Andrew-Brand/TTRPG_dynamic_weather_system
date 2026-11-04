@@ -1,14 +1,19 @@
 import pandas as pd
 import random as rnd
+import os
+
+def open_csv(name:str):
+    script_dir = os.path.dirname(__file__)
+    full_path = os.path.join(script_dir, 'tables', name)
+    return pd.read_csv(full_path)
 
 def import_tables():
-    """import csv input tables from 'tables' directory"""
-    p_h = pd.read_csv(r'TTRPG_dynamic_weather_system/tables/pressure-humidity.csv')
-    wind = pd.read_csv(r'TTRPG_dynamic_weather_system/tables/wind_speeds.csv')
-    states = pd.read_csv(r'TTRPG_dynamic_weather_system/tables/states.csv', header = None)
-    return p_h, wind, states
+    pressure_humidity = open_csv("pressure-humidity.csv")
+    wind = open_csv('wind_speeds.csv')
+    states = open_csv('states.csv')
+    return pressure_humidity, wind, states
 
-def run(d:int, s:str, t:str, h:str):
+def run(days:int, season:str, climate:str, humidity:str):
     p_h, wind, states = import_tables()
 
     cols = states.shape[1]
@@ -21,4 +26,4 @@ def run(d:int, s:str, t:str, h:str):
 
     return states, weather, temp, intensity
 
-states, w, t, i = run(1,1,1,1)
+states, w, t, i = run(1,"1","1","1")

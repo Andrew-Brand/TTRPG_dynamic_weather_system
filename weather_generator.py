@@ -8,7 +8,7 @@ Required user inputs:
     - season        STRING      The current season:
                                     - spring, summer, autumn, winter
 
-    - temperature   STRING      The general temperature of the climate in a given region:
+    - climate       STRING      The general climate in a given region:
                                     - tropical, subtropical, temperate, subpolar, polar
 
     - humidity      STRING      The general humidity of the climate in a given region:
