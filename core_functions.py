@@ -2,10 +2,10 @@ from weather_model.weather import run
 import weather_model.navigator as nav
 
 def get_inputs():
-    days = int(input("Enter the number of days to run weather model for: "))
-    season = input("Enter season: ")
-    climate = input("Enter region climate: ")
-    humidity = input("Enter region humidity: ")
+    days = 1
+    season = "test"
+    climate = "test"
+    humidity = "test"
     return days, season, climate, humidity
 
 def main():

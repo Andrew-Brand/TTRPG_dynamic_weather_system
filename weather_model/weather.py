@@ -17,9 +17,7 @@ def run(days:int, season:str, climate:str, humidity:str):
     p_h, wind, states = import_tables()
 
     maxIntensity = states.shape[0] - 1
-    print(maxIntensity)
     maxTemperature = states.shape[1] - 1
-    print(maxTemperature)
 
     temp = rnd.randrange(0,maxTemperature)
     intensity = rnd.randrange(0,maxIntensity)
