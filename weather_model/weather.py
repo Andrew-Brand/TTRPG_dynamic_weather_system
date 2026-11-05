@@ -1,6 +1,7 @@
 import pandas as pd
 import random as rnd
 import os
+from weather_model.set_state_ranges import set_state_range as ssr
 
 def open_csv(name:str):
     script_dir = os.getcwd()
@@ -16,12 +17,16 @@ def import_tables():
 def run(days:int, season:str, climate:str, humidity:str):
     p_h, wind, states = import_tables()
 
-    maxIntensity = states.shape[0] - 1
-    maxTemperature = states.shape[1] - 1
+    state_range, range_centre = ssr()
 
-    temp = rnd.randrange(0,maxTemperature)
-    intensity = rnd.randrange(0,maxIntensity)
+    maxTemp = state_range['temp_high']
+    minTemp = state_range['temp_low']
+    maxHumidity = state_range['humidity_high']
+    minHumidity = state_range['humidity_low']
 
-    weather = states.iloc[intensity, temp]
+    temp = rnd.randrange(state_range['temp_low'],state_range['temp_high'])
+    humidity = rnd.randrange(state_range['humidity_low'],state_range['humidity_high'])
 
-    return states, weather, temp, intensity
+    weather = states.iloc[humidity, temp]
+
+    return states, weather, temp, humidity, range_centre, maxTemp, maxHumidity

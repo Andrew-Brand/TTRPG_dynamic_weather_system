@@ -1,29 +1,74 @@
 from random import randrange
 import numpy as np
 
-def change_state(temperature:int, intensity:int, maxTemp:int, maxIntensity:int):
+def change_state(temperature:int, humidity:int, maxTemp:int, maxHumidity:int,range_centre:list):
     """ Shifts the weather state according to a probabilistic tendency towards a central """
 
-    current_state = np.array([temperature, intensity])
+    current_state = np.array([temperature, humidity])
+    steps_dict = {'stay':       12,
+                  'up':         11,
+                  'up_right':   11,
+                  'right':      11,
+                  'down_right': 11,
+                  'down':       11,
+                  'down_left':  11,
+                  'left':       11,
+                  'up_left':    11
+                  }
+
+    if humidity < range_centre[0]:
+        steps_dict['up_left'] -=3
+        steps_dict['up'] -=3
+        steps_dict['up_right'] -= 3
+        steps_dict['down_right'] +=3
+        steps_dict['down'] += 3
+        steps_dict['down_left'] +=3
+    elif humidity > range_centre[0]:
+        steps_dict['up_left'] += 3
+        steps_dict['up'] += 3
+        steps_dict['up_right'] += 3
+        steps_dict['down_right'] -= 3
+        steps_dict['down'] -= 3
+        steps_dict['down_left'] -= 3
+    else:
+        pass
+
+    if temperature < range_centre[1]:
+        steps_dict['up_right'] +=3
+        steps_dict['right'] +=3
+        steps_dict['down_right'] += 3
+        steps_dict['up_left'] -=3
+        steps_dict['left'] -= 3
+        steps_dict['down_left'] -=3
+    elif temperature > range_centre[1]:
+        steps_dict['up_right'] -=3
+        steps_dict['right'] -=3
+        steps_dict['down_right'] -= 3
+        steps_dict['up_left'] +=3
+        steps_dict['left'] += 3
+        steps_dict['down_left'] +=3
+    else:
+        pass
 
     move = randrange(1,100)
-    if 1 <= move <= 10:
+    if  move <= steps_dict['stay']:
         step = [0,0] # Stay in place
-    elif 11 <= move <= 18:
+    elif move <= sum(list(steps_dict.values())[:2]):
+        step = [0,0]
         step = [0,1] # Move up
-    elif 19 <= move <= 24:
+    elif move <= sum(list(steps_dict.values())[:3]):
         step = [1,1] # Move right and up
-    elif 25 <= move <= 34:
+    elif move <= sum(list(steps_dict.values())[:4]):
         step = [1,0] # Move right
-    elif 35 <= move <= 49:
+    elif move <= sum(list(steps_dict.values())[:5]):
         step = [1,-1] # Move right and down
-    elif 50 <= move <= 69: #nice
+    elif move <= sum(list(steps_dict.values())[:6]): #nice
         step = [0,-1] # Move down
-    elif 69 <= move <=84:
+    elif move <=sum(list(steps_dict.values())[:7]):
         step = [-1,-1] # Move left and down
-    elif 85 <= move <= 94:
+    elif move <= sum(list(steps_dict.values())[:8]):
         step = [-1,0] # Move left
-    elif 95 <= move <= 100:
+    elif move <= 100:
         step = [-1,1] # Move left and up
     else:
         step = [0,0] # Stay in place
@@ -33,8 +78,8 @@ def change_state(temperature:int, intensity:int, maxTemp:int, maxIntensity:int):
     temperature = current_state[0]
     temperature = min(temperature, maxTemp)
     temperature = max(temperature, 0)
-    intensity = current_state[1]
-    intensity = min(intensity, maxIntensity)
-    intensity = max(intensity, 0)
+    humidity = current_state[1]
+    humidity = min(humidity, maxHumidity)
+    humidity = max(humidity, 0)
 
-    return temperature, intensity
+    return temperature, humidity
