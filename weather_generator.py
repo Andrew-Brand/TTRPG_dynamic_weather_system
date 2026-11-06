@@ -15,7 +15,7 @@ Required user inputs:
                                     - humid, subhumid, semiarid,arid,hyperarid
 """
 
-from core_functions import main
+from weather_model.core_functions import main
 
 #Not sure why this is standard practice, but I'm doing it anyway!
 if __name__ == "__main__":

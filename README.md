@@ -11,7 +11,7 @@ The model takes an input region temperature and humidity (inspired by the biome 
 ![How region humidity/temperature defines potential weather states](Assets/methodology_1.png?raw=true "Method to determine possible weather states")
 
 ## Inputs
-Valid inputs for each variable are given below (case-sensitive):
+Valid inputs for each variable are given below:
 
 **SEASON**
 - spring
