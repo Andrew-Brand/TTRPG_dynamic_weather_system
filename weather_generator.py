@@ -17,6 +17,9 @@ Required user inputs:
 
 from weather_model.core_functions import main
 
+#Number of runs to do
+runs = 1095
+
 #Not sure why this is standard practice, but I'm doing it anyway!
 if __name__ == "__main__":
-    main()
+    main(runs)

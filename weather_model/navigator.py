@@ -1,7 +1,7 @@
-from random import randrange
+import random as rnd
 import numpy as np
 
-def change_state(humidity:int, temperature:int, maxTemp:int, maxHumidity:int,range_centre:list):
+def change_state(humidity:int, temperature:int, humidity_range:list, temperature_range:list, range_centre:list):
     """ Shifts the weather state according to a probabilistic tendency towards a central """
 
     current_state = np.array([humidity, temperature])
@@ -15,42 +15,44 @@ def change_state(humidity:int, temperature:int, maxTemp:int, maxHumidity:int,ran
                   'left':       11,
                   'up_left':    11
                   }
+    vert_pc_shift = 1.7
+    horiz_pc_shift = 1.2
 
     if humidity < range_centre[0]:
-        steps_dict['up_left'] -=4
-        steps_dict['up'] -=5
-        steps_dict['up_right'] -= 4
-        steps_dict['down_right'] +=4
-        steps_dict['down'] += 5
-        steps_dict['down_left'] +=4
+        steps_dict['up_left'] -=vert_pc_shift
+        steps_dict['up'] -=vert_pc_shift
+        steps_dict['up_right'] -=vert_pc_shift
+        steps_dict['down_right'] +=vert_pc_shift
+        steps_dict['down'] +=vert_pc_shift
+        steps_dict['down_left'] +=vert_pc_shift
     elif humidity > range_centre[0]:
-        steps_dict['up_left'] += 4
-        steps_dict['up'] += 5
-        steps_dict['up_right'] += 4
-        steps_dict['down_right'] -= 4
-        steps_dict['down'] -= 5
-        steps_dict['down_left'] -= 4
+        steps_dict['up_left'] +=vert_pc_shift
+        steps_dict['up'] +=vert_pc_shift
+        steps_dict['up_right'] +=vert_pc_shift
+        steps_dict['down_right'] -=vert_pc_shift
+        steps_dict['down'] -=vert_pc_shift
+        steps_dict['down_left'] -=vert_pc_shift
     else:
         pass
 
     if temperature < range_centre[1]:
-        steps_dict['up_right'] +=4
-        steps_dict['right'] +=5
-        steps_dict['down_right'] += 4
-        steps_dict['up_left'] -=4
-        steps_dict['left'] -= 5
-        steps_dict['down_left'] -=4
+        steps_dict['up_right'] +=horiz_pc_shift
+        steps_dict['right'] +=horiz_pc_shift
+        steps_dict['down_right'] +=horiz_pc_shift
+        steps_dict['up_left'] -=horiz_pc_shift
+        steps_dict['left'] -=horiz_pc_shift
+        steps_dict['down_left'] -=horiz_pc_shift
     elif temperature > range_centre[1]:
-        steps_dict['up_right'] -=4
-        steps_dict['right'] -=5
-        steps_dict['down_right'] -= 4
-        steps_dict['up_left'] +=4
-        steps_dict['left'] += 5
-        steps_dict['down_left'] +=4
+        steps_dict['up_right'] -=horiz_pc_shift
+        steps_dict['right'] -=horiz_pc_shift
+        steps_dict['down_right'] -=horiz_pc_shift
+        steps_dict['up_left'] +=horiz_pc_shift
+        steps_dict['left'] +=horiz_pc_shift
+        steps_dict['down_left'] +=horiz_pc_shift
     else:
         pass
 
-    move = randrange(1,100)
+    move = round(rnd.uniform(1,100),1)
     if  move <= steps_dict['stay']:
         step = [0,0] # Stay in place
     elif move <= sum(list(steps_dict.values())[:2]):
@@ -75,10 +77,10 @@ def change_state(humidity:int, temperature:int, maxTemp:int, maxHumidity:int,ran
     current_state = current_state + step
 
     humidity = current_state[0]
-    humidity = min(humidity, maxHumidity)
-    humidity = max(humidity, 0)
+    humidity = max(humidity, humidity_range[0])
+    humidity = min(humidity, humidity_range[1])
     temperature = current_state[1]
-    temperature = min(temperature, maxTemp)
-    temperature = max(temperature, 1)
+    temperature = max(temperature, temperature_range[0])
+    temperature = min(temperature, temperature_range[1])
 
     return humidity, temperature
