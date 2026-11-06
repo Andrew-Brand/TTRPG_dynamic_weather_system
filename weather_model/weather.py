@@ -19,13 +19,13 @@ def run(days:int, season:str, climate:str, humidity:str):
 
     state_range, range_centre = ssr()
 
-    maxTemp = state_range['temp_high']
-    minTemp = state_range['temp_low']
     maxHumidity = state_range['humidity_high']
     minHumidity = state_range['humidity_low']
+    maxTemp = state_range['temp_high']
+    minTemp = state_range['temp_low']
 
-    temp = rnd.randrange(state_range['temp_low'],state_range['temp_high'])
-    humidity = rnd.randrange(state_range['humidity_low'],state_range['humidity_high'])
+    humidity = rnd.randrange(minHumidity, maxHumidity)
+    temp = rnd.randrange(minTemp,maxTemp)
 
     weather = states.iloc[humidity, temp]
 
