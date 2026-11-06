@@ -25,5 +25,3 @@ def main():
     newTemp, newIntensity = nav.change_state(newTemp, newIntensity, maxTemp, maxHumidity, range_centre)
     print(f"{newIntensity}, {newTemp} - {states.iloc[newIntensity, newTemp]}")
     return
-
-main()
