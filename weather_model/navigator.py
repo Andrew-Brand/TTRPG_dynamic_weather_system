@@ -1,86 +1,71 @@
+"""Probabilistic movement of the weather state across the grid."""
+
 import random as rnd
-import numpy as np
 
-def change_state(humidity:int, temperature:int, humidity_range:list, temperature_range:list, range_centre:list):
-    """ Shifts the weather state according to a probabilistic tendency towards a central """
+from weather_model import config
+from weather_model.state import StateRange, WeatherState
 
-    current_state = np.array([humidity, temperature])
-    steps_dict = {'stay':       12,
-                  'up':         11,
-                  'up_right':   11,
-                  'right':      11,
-                  'down_right': 11,
-                  'down':       11,
-                  'down_left':  11,
-                  'left':       11,
-                  'up_left':    11
-                  }
-    vert_pc_shift = 1.7
-    horiz_pc_shift = 1.2
 
-    if humidity < range_centre[0]:
-        steps_dict['up_left'] -=vert_pc_shift
-        steps_dict['up'] -=vert_pc_shift
-        steps_dict['up_right'] -=vert_pc_shift
-        steps_dict['down_right'] +=vert_pc_shift
-        steps_dict['down'] +=vert_pc_shift
-        steps_dict['down_left'] +=vert_pc_shift
-    elif humidity > range_centre[0]:
-        steps_dict['up_left'] +=vert_pc_shift
-        steps_dict['up'] +=vert_pc_shift
-        steps_dict['up_right'] +=vert_pc_shift
-        steps_dict['down_right'] -=vert_pc_shift
-        steps_dict['down'] -=vert_pc_shift
-        steps_dict['down_left'] -=vert_pc_shift
-    else:
-        pass
+class Navigator:
+    """Shifts the weather state with a probabilistic tendency towards the centre."""
 
-    if temperature < range_centre[1]:
-        steps_dict['up_right'] +=horiz_pc_shift
-        steps_dict['right'] +=horiz_pc_shift
-        steps_dict['down_right'] +=horiz_pc_shift
-        steps_dict['up_left'] -=horiz_pc_shift
-        steps_dict['left'] -=horiz_pc_shift
-        steps_dict['down_left'] -=horiz_pc_shift
-    elif temperature > range_centre[1]:
-        steps_dict['up_right'] -=horiz_pc_shift
-        steps_dict['right'] -=horiz_pc_shift
-        steps_dict['down_right'] -=horiz_pc_shift
-        steps_dict['up_left'] +=horiz_pc_shift
-        steps_dict['left'] +=horiz_pc_shift
-        steps_dict['down_left'] +=horiz_pc_shift
-    else:
-        pass
+    def __init__(
+        self,
+        state_range: StateRange,
+        vert_pc_shift: float = config.VERTICAL_PC_SHIFT,
+        horiz_pc_shift: float = config.HORIZONTAL_PC_SHIFT,
+    ):
+        self.state_range = state_range
+        self.centre = state_range.centre
+        self.vert_pc_shift = vert_pc_shift
+        self.horiz_pc_shift = horiz_pc_shift
 
-    move = round(rnd.uniform(1,100),1)
-    if  move <= steps_dict['stay']:
-        step = [0,0] # Stay in place
-    elif move <= sum(list(steps_dict.values())[:2]):
-        step = [-1,0] # Move up
-    elif move <= sum(list(steps_dict.values())[:3]):
-        step = [-1,1] # Move right and up
-    elif move <= sum(list(steps_dict.values())[:4]):
-        step = [0,1] # Move right
-    elif move <= sum(list(steps_dict.values())[:5]):
-        step = [1,1] # Move right and down
-    elif move <= sum(list(steps_dict.values())[:6]):
-        step = [1,0] # Move down
-    elif move <=sum(list(steps_dict.values())[:7]):
-        step = [1,-1] # Move left and down
-    elif move <= sum(list(steps_dict.values())[:8]):
-        step = [0,-1] # Move left
-    elif move <= 100:
-        step = [-1,-1] # Move left and up
-    else:
-        step = [0,0] # Stay in place
+    def _step_weights(self, state: WeatherState) -> dict:
+        """Base step weights, biased towards the centre of the grid."""
+        weights = dict(config.BASE_STEP_WEIGHTS)
+        v, h = self.vert_pc_shift, self.horiz_pc_shift
 
-    current_state = current_state + step
+        if state.humidity < self.centre.humidity:
+            for k in ("up_left", "up", "up_right"):
+                weights[k] -= v
+            for k in ("down_right", "down", "down_left"):
+                weights[k] += v
+        elif state.humidity > self.centre.humidity:
+            for k in ("up_left", "up", "up_right"):
+                weights[k] += v
+            for k in ("down_right", "down", "down_left"):
+                weights[k] -= v
 
-    humidity = current_state[0]
-    humidity = max(humidity, humidity_range[0])
-    humidity = min(humidity, humidity_range[1])
-    temperature = current_state[1]
-    temperature = max(temperature, temperature_range[0])
-    temperature = min(temperature, temperature_range[1])
+        if state.temperature < self.centre.temperature:
+            for k in ("up_right", "right", "down_right"):
+                weights[k] += h
+            for k in ("up_left", "left", "down_left"):
+                weights[k] -= h
+        elif state.temperature > self.centre.temperature:
+            for k in ("up_right", "right", "down_right"):
+                weights[k] -= h
+            for k in ("up_left", "left", "down_left"):
+                weights[k] += h
 
-    return humidity, temperature
+        return weights
+
+    @staticmethod
+    def _pick_step(weights: dict) -> tuple:
+        """Roll 1-100 and map it onto the cumulative step weights."""
+        move = round(rnd.uniform(1, 100), 1)
+        names = list(config.STEP_DELTAS)
+        values = [weights[n] for n in names]
+
+        for i, name in enumerate(names[:-1], start=1):
+            if move <= sum(values[:i]):
+                return config.STEP_DELTAS[name]
+        if move <= 100:
+            return config.STEP_DELTAS[names[-1]]
+        return config.STEP_DELTAS["stay"]
+
+    def change_state(self, state: WeatherState) -> WeatherState:
+        d_humidity, d_temperature = self._pick_step(self._step_weights(state))
+        return self.state_range.clamp(
+            state.humidity + d_humidity,
+            state.temperature + d_temperature,
+        )
