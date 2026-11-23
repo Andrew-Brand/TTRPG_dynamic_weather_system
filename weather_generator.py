@@ -15,11 +15,16 @@ Required user inputs:
                                     - humid, subhumid, semiarid,arid,hyperarid
 """
 
-from weather_model.core_functions import main
+from weather_model import config
+from weather_model.reporting import plot_hexbin, print_summary
+from weather_model.simulation import Simulation
 
-#Number of runs to do
-runs = 1095
 
-#Not sure why this is standard practice, but I'm doing it anyway!
+def main(runs: int = config.DEFAULT_RUNS) -> None:
+    trend = Simulation().run(runs)
+    print_summary(trend)
+    plot_hexbin(trend)
+
+
 if __name__ == "__main__":
-    main(runs)
+    main()

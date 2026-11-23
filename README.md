@@ -32,3 +32,9 @@ Valid inputs for each variable are given below:
 - semiarid
 - arid
 - hyperarid
+
+## Running
+```
+pip install -r requirements.txt
+python weather_generator.py
+```
